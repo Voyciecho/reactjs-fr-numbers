@@ -30,6 +30,7 @@ class FrenchInputForm extends React.Component {
                 <input
                     type="text"
                     name="name"
+                    style={{width:'250px'}}
                     value={this.state.frenchText}
                     onChange={this.handleChange}
                     onKeyDown={this.handleKeyDown}
@@ -75,7 +76,7 @@ class HistoryTable extends React.Component {
         rows.reverse();
 
         return (
-            <div style={{overflowY:'auto', height:'100px'}}>
+            <div style={{overflowY:'auto', height:'100px', color:"rgb(200,200,200)"}}>
             <table>
             <tbody>
             {rows}
@@ -111,7 +112,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{width:'300px'}}>
                 <h1>{this.state.numero}</h1>
                 <FrenchInputForm handleSubmit={this.submitAnswer} />
                 <UserStatistics correctCount={this.state.correctCount} failedCount={this.state.failedCount}/>
