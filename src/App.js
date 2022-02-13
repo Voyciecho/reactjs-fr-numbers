@@ -10,10 +10,16 @@ class FrenchInputForm extends React.Component {
 
     handleChange = (event) => {
         this.setState({frenchText: event.target.value});
+        event.preventDefault();
+        event.stopPropagation();
     }
 
-    handleSubmit = (event) => {
-        this.props.handleSubmit(this.state.frenchText);
+    handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            this.props.handleSubmit(this.state.frenchText);
+            event.preventDefault();
+            event.stopPropagation();
+        }
     }
 
     render() {
@@ -25,12 +31,7 @@ class FrenchInputForm extends React.Component {
                     name="name"
                     value={this.state.frenchText}
                     onChange={this.handleChange}
-                />
-                <input
-                    type="button"
-                    name="Submit"
-                    value="Submit"
-                    onClick={this.handleSubmit}
+                    onKeyDown={this.handleKeyDown}
                 />
             </form>
             </div>
