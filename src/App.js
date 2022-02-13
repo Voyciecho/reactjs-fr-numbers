@@ -3,6 +3,18 @@ import React from 'react';
 
 const frenchDictionary = {1: 'un', 2: 'deux', 3: 'trois', 4: 'quatre', 5: 'cinq', 6: 'six', 7: 'sept', 8: 'huit', 9: 'neuf', 10: 'dix'};
 
+class Numero extends React.Component {
+    render() {
+        return (
+            <div>
+                <h3>French numbers [1-10]</h3>
+                <hr />
+                <h1>{this.props.numero}</h1>
+            </div>
+        );
+    }
+}
+
 class FrenchInputForm extends React.Component {
     state = {
         frenchText: 'type in french number here'
@@ -44,18 +56,14 @@ class FrenchInputForm extends React.Component {
 class UserStatistics extends React.Component {
     render() {
         return (
-            <table>
-            <tbody>
+            <table><tbody>
                 <tr>
                     <th>Correct:</th>
                     <th>{this.props.correctCount}</th>
-                </tr>
-                <tr>
                     <th>Failed:</th>
                     <th>{this.props.failedCount}</th>
                 </tr>
-            </tbody>
-            </table>
+            </tbody></table>
         );
     }
 }
@@ -77,11 +85,7 @@ class HistoryTable extends React.Component {
 
         return (
             <div style={{overflowY:'auto', height:'100px', color:"rgb(200,200,200)"}}>
-            <table>
-            <tbody>
-            {rows}
-            </tbody>
-            </table>
+                <table><tbody>{rows}</tbody></table>
             </div>
         );
     }
@@ -113,7 +117,7 @@ class App extends React.Component {
     render() {
         return (
             <div style={{width:'300px'}}>
-                <h1>{this.state.numero}</h1>
+                <Numero numero={this.state.numero}/>
                 <FrenchInputForm handleSubmit={this.submitAnswer} />
                 <UserStatistics correctCount={this.state.correctCount} failedCount={this.state.failedCount}/>
                 <HistoryTable answersList={this.state.answersList}/>
