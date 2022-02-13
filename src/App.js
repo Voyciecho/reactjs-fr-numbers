@@ -5,7 +5,7 @@ const frenchDictionary = {1: 'un', 2: 'deux', 3: 'trois', 4: 'quatre', 5: 'cinq'
 
 class FrenchInputForm extends React.Component {
     state = {
-        frenchText: 'french number'
+        frenchText: 'type in french number here'
     }
 
     handleChange = (event) => {
@@ -19,6 +19,7 @@ class FrenchInputForm extends React.Component {
             this.props.handleSubmit(this.state.frenchText);
             event.preventDefault();
             event.stopPropagation();
+            this.setState({frenchText: ''});
         }
     }
 
