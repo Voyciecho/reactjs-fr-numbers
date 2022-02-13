@@ -123,7 +123,7 @@ class App extends React.Component {
             correctAnswer = frenchDictionary[this.state.numero-this.state.numero%10] + '-' + frenchDictionary[this.state.numero%10];
         }
 
-        if (correctAnswer === answer.replaceAll(' ', '-')) {
+        if (correctAnswer === answer.replaceAll(' ', '-').toLowerCase()) {
             this.setState({correctCount: this.state.correctCount + 1})
             result = true;
         }
