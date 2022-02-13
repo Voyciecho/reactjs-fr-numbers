@@ -1,13 +1,17 @@
 
 import React from 'react';
 
-const frenchDictionary = {1: 'un', 2: 'deux', 3: 'trois', 4: 'quatre', 5: 'cinq', 6: 'six', 7: 'sept', 8: 'huit', 9: 'neuf', 10: 'dix'};
+const frenchDictionary = {
+    1: 'un', 2: 'deux', 3: 'trois', 4: 'quatre', 5: 'cinq', 6: 'six', 7: 'sept', 8: 'huit', 9: 'neuf', 10: 'dix',
+    11: 'onze', 12: 'douze', 13: 'treize', 14: 'quatorze', 15: 'quinze', 16: 'seize', 17: 'dix-sept', 18: 'dix-huit', 19: 'dix-neuf',
+    20: 'vingt', 30: 'trente', 40: 'quarante', 50: 'cinquante', 60: 'soixate'
+};
 
 class Numero extends React.Component {
     render() {
         return (
             <div>
-                <h3>French numbers [1-10]</h3>
+                <h3>French numbers [1-60]</h3>
                 <hr />
                 <h1>{this.props.numero}</h1>
             </div>
@@ -42,7 +46,7 @@ class FrenchInputForm extends React.Component {
                 <input
                     type="text"
                     name="name"
-                    style={{width:'250px'}}
+                    style={{width:'350px'}}
                     value={this.state.frenchText}
                     onChange={this.handleChange}
                     onKeyDown={this.handleKeyDown}
@@ -77,6 +81,8 @@ class HistoryTable extends React.Component {
                 <tr>
                     <th>{answer.number}</th>
                     <th>{answer.french}</th>
+                    <th>{answer.result ? "" : "!="}</th>
+                    <th>{answer.result ? "" : answer.frenchCorrect}</th>
                 </tr>
                 )
             );
@@ -96,7 +102,7 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            numero: Math.floor((Math.random() * 10) + 1),
+            numero: Math.floor((Math.random() * 60) + 1),
             correctCount: 0,
             failedCount: 0,
             answersList: []
@@ -104,19 +110,35 @@ class App extends React.Component {
     }
 
     submitAnswer = (answer) => {
-        if (frenchDictionary[this.state.numero] === answer) {
+        let correctAnswer;
+        let result;
+
+        if (frenchDictionary.hasOwnProperty(this.state.numero)) {
+            correctAnswer = frenchDictionary[this.state.numero];
+        }
+        else if (this.state.numero % 10 === 1) {
+            correctAnswer = frenchDictionary[this.state.numero-1] + '-et-un';
+        }
+        else {
+            correctAnswer = frenchDictionary[this.state.numero-this.state.numero%10] + '-' + frenchDictionary[this.state.numero%10];
+        }
+
+        if (correctAnswer === answer.replaceAll(' ', '-')) {
             this.setState({correctCount: this.state.correctCount + 1})
+            result = true;
         }
         else {
             this.setState({failedCount: this.state.failedCount + 1})
+            result = false;
         }
-        this.state.answersList.push({number: this.state.numero, french: answer});
-        this.setState({numero: Math.floor((Math.random() * 10) + 1) });
+
+        this.state.answersList.push({number: this.state.numero, french: answer, frenchCorrect: correctAnswer, result: result});
+        this.setState({numero: Math.floor((Math.random() * 60) + 1) });
     }
 
     render() {
         return (
-            <div style={{width:'300px'}}>
+            <div style={{width:'400px'}}>
                 <Numero numero={this.state.numero}/>
                 <FrenchInputForm handleSubmit={this.submitAnswer} />
                 <UserStatistics correctCount={this.state.correctCount} failedCount={this.state.failedCount}/>
